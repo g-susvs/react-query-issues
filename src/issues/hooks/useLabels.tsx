@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Label } from "../interfaces/labels";
+import { Label } from "../interfaces/label";
 import { githubApi } from "../../api/githubApi";
 import { sleep } from "../../helpers/sleep";
 

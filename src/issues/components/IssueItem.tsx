@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { getIssueComments, getIssueInfo } from '../hooks/useIssue';
 import useDebounceHover from '../hooks/useDebounceHover ';
+import { timeSince } from '../../helpers';
 
 interface Props {
     issue: Issue
@@ -58,12 +59,26 @@ export const IssueItem: FC<Props> = ({ issue }) => {
                 {
                     issue.state === State.Open
                         ? (<FiInfo size={30} color="red" />)
-                        : (<FiCheckCircle size={30} color="green" />)
+                        : (<FiCheckCircle size={30} color="green" />
+                        )
                 }
 
                 <div className="d-flex flex-column flex-fill px-2">
                     <span>{issue.title}</span>
-                    <span className="issue-subinfo">{issue.number} opened 2 days ago by <span className='fw-bold'>{issue.user.login}</span></span>
+                    <span className="issue-subinfo">{issue.number} {timeSince(issue.created_at)} by <span className='fw-bold'>{issue.user.login}</span></span>
+                    <div>
+                        {
+                            issue.labels.map(label => {
+                                return (
+                                    <span
+                                        key={label.id}
+                                        className='badge rounded-fill m-1'
+                                        style={{ backgroundColor: `#${label.color}`, color: 'black' }}
+                                    >{label.name}</span>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
 
                 <div className='d-flex align-items-center'>
